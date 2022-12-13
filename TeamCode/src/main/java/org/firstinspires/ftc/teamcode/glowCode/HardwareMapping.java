@@ -71,15 +71,16 @@ public class HardwareMapping {
         leftRear = hwMap.get(DcMotorEx.class, "leftRear");
         rightRear = hwMap.get(DcMotorEx.class, "rightRear");
         rightFront = hwMap.get(DcMotorEx.class, "rightFront");
+        turretArm = hwMap.get(DcMotorEx.class, "turretArm");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
 /*End Copied out of SampleMecanumDrive*/
 
         // Define and Initialize Motors
-        turretArm = hwMap.get(DcMotorEx.class, "turretArm");
         //clawArm = hwMap.get(DcMotorEx.class, "clawArm");
         //clawArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        turretArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -105,10 +106,12 @@ public class HardwareMapping {
          rightRear.setTargetPosition(rightRear.getCurrentPosition()+move);
          leftFront.setTargetPosition(leftFront.getCurrentPosition()+move);
          rightFront.setTargetPosition(rightFront.getCurrentPosition()+move);
-          rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-          leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-          rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-          leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+         turretArm.setTargetPosition(turretArm.getCurrentPosition()+move);
+         turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+         rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+         leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+         rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+         leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
           leftRear.setPower(speed);
                     rightRear.setPower(speed);

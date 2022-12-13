@@ -14,7 +14,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Autonomous
-public class RedCamera extends LinearOpMode
+public class BlueCamera extends LinearOpMode
 {
     private final HardwareMapping robot = new HardwareMapping();
 
@@ -180,21 +180,21 @@ public class RedCamera extends LinearOpMode
                 break;
 
             case NULL:
-                robot.driveAtDirection(270, 2000, .3);
+                robot.driveAtDirection(90, 2000, .3);
         }
     }
-        void tagToTelemetry(AprilTagDetection detection)
-        {
-            telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
-            if (detection.id == 1) {
-                telemetry.addLine(String.format("Left"));
-            }
-            else if (detection.id == 2){
-                telemetry.addLine(String.format("Middle"));
-            }
-            else if (detection.id == 3){
-                telemetry.addLine(String.format("Right"));
-            }
+    void tagToTelemetry(AprilTagDetection detection)
+    {
+        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+        if (detection.id == 1) {
+            telemetry.addLine(String.format("Left"));
+        }
+        else if (detection.id == 2){
+            telemetry.addLine(String.format("Middle"));
+        }
+        else if (detection.id == 3){
+            telemetry.addLine(String.format("Right"));
+        }
         telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
         telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
         telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));

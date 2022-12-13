@@ -32,7 +32,7 @@ public class RRTest  extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         // We want to start the bot at x:
-        Pose2d startPose = new Pose2d(10, -8);
+        Pose2d startPose = new Pose2d(-36, -62, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose);
 
