@@ -55,8 +55,11 @@ public class MecTeleOp extends OpMode {
             double gamepad1LeftY = -gamepad1.left_stick_y * SLOW;
             double gamepad1LeftX = gamepad1.left_stick_x * SLOW;
             double gamepad1RightX = gamepad1.right_stick_x * SLOW;
+            double gamepad2LeftY = gamepad2.left_stick_y;
             //double gamepad2LeftY = -gamepad1.left_stick_y * .7 * slow;
+            /*if (gamepad2LeftY < -0.8) {
 
+            }*/ //leave this be for now, not in use - Miles
 
             // holonomic formulas
             double FrontLeftPrep = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
@@ -81,7 +84,7 @@ public class MecTeleOp extends OpMode {
             robot.leftRear.setPower(BackLeft);
             robot.rightRear.setPower(BackRight);
 
-            robot.turretArm.setPower(gamepad2.left_stick_y);
+            robot.turretArm.setPower(gamepad2LeftY);
             //robot.clawArm.setPower(gamepad2.left_stick_x / 3);
             robot.claw.setPower(gamepad2.right_stick_x);
 
