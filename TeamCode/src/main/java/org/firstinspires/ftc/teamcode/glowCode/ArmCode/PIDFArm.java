@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.glowCode;
+package org.firstinspires.ftc.teamcode.glowCode.ArmCode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -7,6 +7,9 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+
+import org.firstinspires.ftc.teamcode.glowCode.HardwareMapping;
 
 @Config
 @TeleOp
@@ -20,9 +23,9 @@ public class PIDFArm extends OpMode {
 
     public static int target = 0;
 
-    private final double TicksInDegree = 384.5 / 360;
+    private final double TicksInDegree = 700 / 180.0;
 
-    private DcMotor ArmMotor;
+    DcMotorEx turretArm;
 
 
     @Override
@@ -30,23 +33,25 @@ public class PIDFArm extends OpMode {
     controller = new PIDController(p, i, d);
     telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-    ArmMotor = hardwareMap.get(DcMotor.class, "turretArm");
+    turretArm = hardwareMap.get(DcMotorEx.class, "turretArm");
+    turretArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     @Override
     public void loop() {
         controller.setPID(p, i, d);
-        int armPos = ArmMotor.getCurrentPosition();
+        int armPos = turretArm.getCurrentPosition();
         double pid = controller.calculate(armPos, target);
-        //double ff = Math.cos(Math.toRadians(target / TicksInDegree)) * f;
+        double ff = Math.cos(Math.toRadians(target / TicksInDegree)) * f;
+
         // tune till the slide holds itself in place.
 
         // PID for general movement of the system, feedforward removes the disturbance
         // this improves the responsiveness of the PID controller
-        double power = pid + Kg;
+        double power = pid + ff;
 
 
-        ArmMotor.setPower(power);
+        turretArm.setPower(power);
 
         telemetry.addData("pos ", armPos);
         telemetry.addData("target ", target);

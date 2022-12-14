@@ -33,7 +33,7 @@ import java.util.List;
 public class HardwareMapping {
 
     /* Public OpMode members. */
-    public DcMotor turretArm = null;
+    public DcMotorEx turretArm = null;
     public CRServo claw = null;
 
 
@@ -105,8 +105,6 @@ public class HardwareMapping {
          rightRear.setTargetPosition(rightRear.getCurrentPosition()+move);
          leftFront.setTargetPosition(leftFront.getCurrentPosition()+move);
          rightFront.setTargetPosition(rightFront.getCurrentPosition()+move);
-         turretArm.setTargetPosition(turretArm.getCurrentPosition()+move);
-         turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
