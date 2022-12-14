@@ -34,7 +34,6 @@ public class HardwareMapping {
 
     /* Public OpMode members. */
     public DcMotor turretArm = null;
-    //public DcMotor clawArm = null;
     public CRServo claw = null;
 
 

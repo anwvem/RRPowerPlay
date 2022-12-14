@@ -32,4 +32,7 @@ dependencies {
 
     implementation 'org.openftc:easyopencv:1.5.2'
     implementation 'org.openftc:apriltag:1.1.0'
+
+    implementation 'org.ftclib.ftclib:core2.0.1'
+    implementation 'com.arcrobotics:ftclib:1.1.6'
 }
