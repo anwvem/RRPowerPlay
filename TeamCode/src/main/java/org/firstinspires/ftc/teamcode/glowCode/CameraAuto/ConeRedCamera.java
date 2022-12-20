@@ -182,7 +182,7 @@ public class ConeRedCamera extends LinearOpMode
                 break;
 
             case NULL:
-                //Case NULL and Case LEFT should be treated as the same in my opinion. If we choose not to, comment out the forward command (I believe its worth more to try for a one-third chance of 20 than take a guaranteed 2)
+                //Case NULL and Case LEFT should be treated as the same in my opinion. If we choose not to, comment out the forward command (I believe its worth more to try for a one-third chance of 20 than take a guaranteed 2) - Miles
                 //deliver preloaded cone to terminal
                 robot.driveAtDirection(270, 2000, .3);
                 //park in zone
