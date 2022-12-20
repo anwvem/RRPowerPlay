@@ -156,8 +156,26 @@ public class ConeRedCamera extends LinearOpMode
             case LEFT:
                 //deliver preloaded cone to terminal
                 robot.driveAtDirection(270, 2000, .3);
-                //park in zone
+                //Place cone (Currently test feature, numbers need to be adjusted)
                 robot.driveAtDirection(0, 2000, .3);
+                robot.driveAtDirection(90, 700, 0.3);
+                robot.turnLeft(60, 0.3);
+                robot.driveAtDirection(0, 1000, .3);
+                robot.turretArm.setPower(0.7);
+                robot.claw.setPower(0.4);
+                boolean isFalse = false;
+                while (!isFalse) {
+                    if (robot.turretArm.getCurrentPosition() >= 2) {
+                        isFalse = true;
+                        robot.turretArm.setPower(0);
+                        robot.claw.setPower(0);
+                    }
+                }
+                robot.driveAtDirection(0, 100, .3);
+                //robot.driveAtDirection(0, 100, .3);
+                //For now, this park in zone program is not in use
+                //park in zone
+                //robot.driveAtDirection(0, 2000, .3);
                 break;
 
             case MIDDLE:
