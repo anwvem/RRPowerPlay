@@ -22,11 +22,13 @@ public class MecTeleOp extends OpMode {
     private final HardwareMapping robot = new HardwareMapping();
     private double SLOW = 0.75;
     int move;
-    int low;
+    int low = 1000;
     int middle;
     int high;
     int test;
     //private double slow = 1;
+
+
 
     @Override
     public void init() {
@@ -84,12 +86,13 @@ public class MecTeleOp extends OpMode {
             robot.turretArm.setPower(gamepad2.left_stick_y);
             //robot.clawArm.setPower(gamepad2.left_stick_x / 3);
             robot.claw.setPower(gamepad2.right_stick_x);
+            robot.claw2.setPower(-gamepad2.right_stick_x);
 
             if (gamepad2.x) {
                 move = low;
-                robot.turretArm.setTargetPosition(robot.turretArm.getCurrentPosition()+move);
+                //robot.turretArm.setTargetPosition(robot.turretArm.getCurrentPosition()+move);
                 robot.turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
+            } /*
             if (gamepad2.y) {
                 move = middle;
                 robot.turretArm.setTargetPosition(robot.turretArm.getCurrentPosition()+move);
@@ -105,7 +108,7 @@ public class MecTeleOp extends OpMode {
                 robot.turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
              */
-            if (gamepad2.b) {
+            /*if (gamepad2.b) {
                 test = test + 1;
                 if (test == 1) {
                     robot.turretArm.setTargetPosition(100);

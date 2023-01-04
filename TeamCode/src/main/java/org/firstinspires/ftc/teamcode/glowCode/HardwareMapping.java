@@ -35,6 +35,7 @@ public class HardwareMapping {
     /* Public OpMode members. */
     public DcMotorEx turretArm = null;
     public CRServo claw = null;
+    public CRServo claw2 = null;
 
 
     /* local OpMode members. */
@@ -88,6 +89,7 @@ public class HardwareMapping {
 
         // Define and initialize ALL installed servos.
         claw = hwMap.get(CRServo.class, "claw");
+        claw2 = hwMap.get(CRServo.class, "claw2");
 
 
         // set the digital channel to input.
