@@ -75,6 +75,7 @@ public class MecTeleOp extends OpMode {
             BackLeftPrep = Range.clip(BackLeftPrep, -1, 1);
             BackRightPrep = Range.clip(BackRightPrep, -1, 1);
 
+
             double FrontRight = Math.pow(FrontRightPrep, 3);
             double FrontLeft = Math.pow(FrontLeftPrep, 3);
             double BackLeft = Math.pow(BackLeftPrep, 3);
@@ -88,14 +89,19 @@ public class MecTeleOp extends OpMode {
 
             robot.turretArm.setPower(gamepad2LeftY);
             //robot.clawArm.setPower(gamepad2.left_stick_x / 3);
-            robot.claw.setPower(gamepad2.right_stick_x);
-            robot.claw2.setPower(-gamepad2.right_stick_x);
+            //robot.claw.setPosition(gamepad2.right_stick_x);
+            //robot.claw2.setPosition(gamepad2.right_stick_x);
 
-            if (gamepad2.x) {
-                move = low;
-                //robot.turretArm.setTargetPosition(robot.turretArm.getCurrentPosition()+move);
-                robot.turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            } /*
+            //open
+            if (gamepad2.right_bumper) {
+               robot.claw.setPosition(0);
+               robot.claw2.setPosition(0.5);
+            }
+            //close
+            if (gamepad2.left_bumper) {
+                robot.claw.setPosition(0.5);
+                robot.claw2.setPosition(0);
+            }/*
             if (gamepad2.y) {
                 move = middle;
                 robot.turretArm.setTargetPosition(robot.turretArm.getCurrentPosition()+move);

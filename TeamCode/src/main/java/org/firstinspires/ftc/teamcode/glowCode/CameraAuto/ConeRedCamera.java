@@ -162,13 +162,13 @@ public class ConeRedCamera extends LinearOpMode
                 robot.turnLeft(60, 0.3);
                 robot.driveAtDirection(0, 1000, .3);
                 robot.turretArm.setPower(0.7);
-                robot.claw.setPower(0.4);
+                //robot.claw.setPower(0.4);
                 boolean isFalse = false;
                 while (!isFalse) {
                     if (robot.turretArm.getCurrentPosition() >= 2) {
                         isFalse = true;
                         robot.turretArm.setPower(0);
-                        robot.claw.setPower(0);
+                        //robot.claw.setPower(0);
                     }
                 }
                 robot.driveAtDirection(0, 100, .3);

@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.util.AxesSigns;
 import org.firstinspires.ftc.teamcode.util.AxisDirection;
 import org.firstinspires.ftc.teamcode.util.BNO055IMUUtil;
 
+import org.firstinspires.ftc.teamcode.util.Encoder;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 
@@ -34,9 +35,11 @@ public class HardwareMapping {
 
     /* Public OpMode members. */
     public DcMotorEx turretArm = null;
-    public CRServo claw = null;
-    public CRServo claw2 = null;
+    public Servo claw = null;
+    public Servo claw2 = null;
 
+    public Encoder parallelEncoder = null;
+    public Encoder perpendicularEncoder = null;
 
     /* local OpMode members. */
     public HardwareMap hwMap = null;
@@ -88,12 +91,13 @@ public class HardwareMapping {
 
 
         // Define and initialize ALL installed servos.
-        claw = hwMap.get(CRServo.class, "claw");
-        claw2 = hwMap.get(CRServo.class, "claw2");
+        claw = hwMap.get(Servo.class, "claw");
+        claw2 = hwMap.get(Servo.class, "claw2");
 
 
         // set the digital channel to input.
-        //claw.setPosition(0);
+        claw.setPosition(0);
+        claw2.setPosition(0.5);
 
         WebcamName webcamName = hwMap.get(WebcamName.class, "Webcam 1");
 
