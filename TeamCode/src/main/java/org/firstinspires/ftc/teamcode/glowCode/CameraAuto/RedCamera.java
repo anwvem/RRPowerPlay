@@ -72,10 +72,6 @@ public class RedCamera extends LinearOpMode
         telemetry.setMsTransmissionInterval(50);
 
 
-        //HARDWARE MAPPING HERE etc.
-
-
-
         /*
          * The INIT-loop:
          * This REPLACES waitForStart!

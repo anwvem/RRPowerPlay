@@ -20,12 +20,9 @@ import com.qualcomm.robotcore.util.Range;
 //@Disabled
 public class MecTeleOp extends OpMode {
     private final HardwareMapping robot = new HardwareMapping();
-    private double SLOW = 0.75;
-    int move;
-    int low = 1000;
-    int middle;
-    int high;
-    int test;
+    //private double SLOW = 0.75;
+    double test = 0;
+    double speed = 1;
     //private double slow = 1;
 
 
@@ -54,9 +51,9 @@ public class MecTeleOp extends OpMode {
 
             // left stick controls direction
             // right stick X controls rotation
-            double gamepad1LeftY = -gamepad1.left_stick_y * SLOW;
-            double gamepad1LeftX = gamepad1.left_stick_x * SLOW;
-            double gamepad1RightX = gamepad1.right_stick_x * SLOW;
+            double gamepad1LeftY = -gamepad1.left_stick_y;
+            double gamepad1LeftX = gamepad1.left_stick_x;
+            double gamepad1RightX = gamepad1.right_stick_x;
             double gamepad2LeftY = gamepad2.left_stick_y;
             //double gamepad2LeftY = -gamepad1.left_stick_y * .7 * slow;
             /*if (gamepad2LeftY < -0.8) {
@@ -94,40 +91,52 @@ public class MecTeleOp extends OpMode {
 
             //open
             if (gamepad2.right_bumper) {
-               robot.claw.setPosition(0);
-               robot.claw2.setPosition(0.5);
+               robot.claw.setPosition(0.5);
+               robot.claw2.setPosition(0);
             }
             //close
             if (gamepad2.left_bumper) {
-                robot.claw.setPosition(0.5);
-                robot.claw2.setPosition(0);
-            }/*
+                robot.claw.setPosition(0.3);
+                robot.claw2.setPosition(0.2);
+            }
             if (gamepad2.y) {
-                move = middle;
-                robot.turretArm.setTargetPosition(robot.turretArm.getCurrentPosition()+move);
-                robot.turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.moveToPositionArm(-1000, 1);
+                robot.turretArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
             if (gamepad2.a) {
-                move = high;
-                robot.turretArm.setTargetPosition(robot.turretArm.getCurrentPosition()+move);
-                robot.turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.moveToPositionArm(-4300, 1);
+                //robot.turretArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
-            /*if (gamepad2.b) {
-                robot.turretArm.setTargetPosition(0);
+            /*if (gamepad2.x) {
+                robot.turretArm.setTargetPosition(Math.abs(robot.turretArm.getCurrentPosition())-robot.turretArm.getCurrentPosition());
                 robot.turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.turretArm.setPower(speed);
+                while (robot.turretArm.isBusy()) {
+
+                }
             }
+
              */
-            /*if (gamepad2.b) {
+
+            if (gamepad2.b) {
                 test = test + 1;
                 if (test == 1) {
-                    robot.turretArm.setTargetPosition(100);
-                    robot.turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.moveToPositionArm(-400, 1);
                 }
                 if (test == 2) {
-                    robot.turretArm.setTargetPosition(200);
-                    robot.turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.moveToPositionArm(100, 1);
+                }
+                if (test == 3) {
+                    robot.moveToPositionArm(100, 1);
+                }
+                if (test == 4) {
+                    robot.moveToPositionArm(100, 1);
+                }
+                if (test == 5) {
+                    robot.moveToPositionArm(100, 1);
                 }
             }
+
 
 
             //robot.claw.setPosition(gamepad2.right_trigger);
@@ -135,6 +144,7 @@ public class MecTeleOp extends OpMode {
             //telemetry.addData("Front Right:", robot.rightFront.isMotorEnabled());
             //telemetry.addData("Rmotor", robot.rightFront.getVelocity());
             //telemetry.addData("Lmotor", robot.leftFront.getVelocity());
+            telemetry.addData("lift encoders", String.format("%d", robot.turretArm.getCurrentPosition()));
             telemetry.addData("Joy XL YL XR", String.format("%.2f", gamepad1LeftX) + " " +
                    String.format("%.2f", gamepad1LeftY) + " " + String.format("%.2f", gamepad1RightX));
             //telemetry.addData("Stick", gamepad1.right_stick_y);

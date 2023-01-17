@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode.glowCode.CameraAuto;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.glowCode.HardwareMapping;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -14,7 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Autonomous
-public class ConeRedCamera extends LinearOpMode
+public class RedCameraTest extends LinearOpMode
 {
     private final HardwareMapping robot = new HardwareMapping();
 
@@ -52,6 +56,7 @@ public class ConeRedCamera extends LinearOpMode
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new EOAprilPipeline(tagsize, fx, fy, cx, cy);
@@ -68,11 +73,36 @@ public class ConeRedCamera extends LinearOpMode
 
             }
         });
+        Pose2d startPose = new Pose2d(-36, -62, Math.toRadians(90));
 
+        drive.setPoseEstimate(startPose);
+
+        /*Trajectory traj1 = drive.trajectoryBuilder(startPose)
+                .strafeRight(6)
+                .build();
+
+         */
+
+        Trajectory traj2 = drive.trajectoryBuilder(startPose)
+                .splineTo(new Vector2d(-40, -62), Math.toRadians(180))
+                .addTemporalMarker(0.01, () -> {
+                    robot.claw.setPosition(0.2);
+                    robot.claw2.setPosition(0.2);
+                })
+                .build();
+
+        Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
+                .splineTo(new Vector2d(-36, 10), Math.toRadians(0))
+                .addTemporalMarker(0.01, () -> {
+                    robot.moveToPositionArm(-100, 1);
+                })
+                .build();
+
+        Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
+                .forward(6)
+                .build();
+        //drive.followTrajectoryAsync(traj3);
         telemetry.setMsTransmissionInterval(50);
-
-
-        //HARDWARE MAPPING HERE etc.
 
 
 
@@ -81,6 +111,7 @@ public class ConeRedCamera extends LinearOpMode
          * This REPLACES waitForStart!
          */
         while (!isStarted() && !isStopRequested()) {
+
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
             if (currentDetections.size() != 0) {
@@ -136,6 +167,9 @@ public class ConeRedCamera extends LinearOpMode
 
             telemetry.update();
             sleep(20);
+
+            robot.claw.setPosition(0.25);
+            robot.claw2.setPosition(0.25);
         }
 
 
@@ -148,24 +182,22 @@ public class ConeRedCamera extends LinearOpMode
             telemetry.update();
         }
 
+
         //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
         telemetry.addData("position", pos);
         telemetry.update();
         switch (pos) {
 
             case LEFT:
-                //deliver preloaded cone to terminal
-                robot.driveAtDirection(270, 2000, .3);
-                //Place cone (Currently test feature, numbers need to be adjusted)
-                robot.driveAtDirection(0, 2200, .3);
-                robot.moveToPositionArm(1000, 0.3);
-                //robot.claw.setPower(0.4);
-
-
-                //robot.driveAtDirection(0, 100, .3);
-                //For now, this park in zone program is not in use
-                //park in zone
-                //robot.driveAtDirection(0, 2000, .3);
+                //drive.followTrajectory(traj1);
+                drive.followTrajectory(traj2);
+                drive.followTrajectory(traj3);
+                robot.moveToPositionArm(-4300, 1);
+                sleep(100);
+                drive.followTrajectory(traj4);
+                //robot.driveAtDirection(0, 200, 0.7);
+                robot.claw.setPosition(0.5);
+                robot.claw2.setPosition(0);
                 break;
 
             case MIDDLE:
@@ -174,8 +206,6 @@ public class ConeRedCamera extends LinearOpMode
                 //move back to original position
                 //robot.driveAtDirection(90, 2000, .3);
                 //park in zone
-                robot.driveAtDirection(270, 2000, .3);
-                robot.driveAtDirection(90, 2000, .3);
                 robot.driveAtDirection(0, 2000, .3);
                 break;
 
@@ -183,19 +213,14 @@ public class ConeRedCamera extends LinearOpMode
                 //deliver preloaded cone to terminal
                 //robot.driveAtDirection(270, 2000, .3);
                 //move to "right" zone
-                robot.driveAtDirection(270, 2000, .3);
-                robot.driveAtDirection(90, 4000, .3);
+                robot.driveAtDirection(90, 1800, .3);
+                sleep(1000);
                 //park in zone
                 robot.driveAtDirection(0, 1500, .3);
                 break;
 
             case NULL:
-                //Case NULL and Case LEFT should be treated as the same in my opinion. If we choose not to, comment out the forward command (I believe its worth more to try for a one-third chance of 20 than take a guaranteed 2) - Miles
-                //deliver preloaded cone to terminal
                 robot.driveAtDirection(270, 2000, .3);
-                //park in zone
-                robot.driveAtDirection(0, 2000, .3);
-                break;
         }
     }
     void tagToTelemetry(AprilTagDetection detection)
@@ -219,14 +244,3 @@ public class ConeRedCamera extends LinearOpMode
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
 }
-
-/*boolean isFalse = false;
-                while (!isFalse) {
-                    if (robot.turretArm.getCurrentPosition() >= 2) {
-                        isFalse = true;
-                        robot.turretArm.setPower(0);
-                        //robot.claw.setPower(0);
-                    }
-                }
-
-                 */

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.glowCode;
 
 import com.acmerobotics.roadrunner.util.Angle;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -96,8 +95,8 @@ public class HardwareMapping {
 
 
         // set the digital channel to input.
-        claw.setPosition(0);
-        claw2.setPosition(0.5);
+        //claw.setPosition(0.5);
+        //claw2.setPosition(0.3);
 
         WebcamName webcamName = hwMap.get(WebcamName.class, "Webcam 1");
 
@@ -129,6 +128,36 @@ public class HardwareMapping {
                                         leftFront.setPower(0);
 
     }
+    public void moveToPositionArm(int driveDistance, double speed) {
+        turretArm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        turretArm.setTargetPosition(Math.abs(turretArm.getCurrentPosition())+driveDistance);
+        turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        turretArm.setPower(speed);
+        while (turretArm.isBusy()) {
+
+        }
+        //turretArm.setPower(0);
+        }
+    /*public void armMove(int move, double speed) {
+        turretArm.setTargetPosition(move);
+        turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        turretArm.setPower(speed);
+
+        //turretArm.setPower(0);
+    }
+
+     */
+
+
+    public void clawPosition(double clawPos, double claw2Pos) {
+       claw.setPosition(clawPos);
+       claw2.setPosition(claw2Pos);
+
+    }
+
+
+
+
     public void driveAtDirection(double AngleIn, double driveDistance, double motorPower) {
         double LeftYMotorFix = -1;
         double LeftXMotorFix = -1;
