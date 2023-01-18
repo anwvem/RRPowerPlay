@@ -136,7 +136,7 @@ public class HardwareMapping {
         while (turretArm.isBusy()) {
 
         }
-        //turretArm.setPower(0);
+        turretArm.setPower(0);
         }
     /*public void armMove(int move, double speed) {
         turretArm.setTargetPosition(move);

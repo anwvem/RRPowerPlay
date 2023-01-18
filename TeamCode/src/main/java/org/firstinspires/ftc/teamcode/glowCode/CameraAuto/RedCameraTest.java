@@ -91,15 +91,26 @@ public class RedCameraTest extends LinearOpMode
                 })
                 .build();
 
-        Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .splineTo(new Vector2d(-36, 10), Math.toRadians(0))
-                .addTemporalMarker(0.01, () -> {
+        Trajectory traj3 = drive.trajectoryBuilder(startPose)
+                .strafeRight(12)
+                //.splineTo(new Vector2d(-5, -10), Math.toRadians(90))
+                /*.addTemporalMarker(0.01, () -> {
                     robot.moveToPositionArm(-100, 1);
                 })
+
+                 */
                 .build();
 
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
-                .forward(6)
+                .forward(28)
+                .build();
+
+        Trajectory traj5 = drive.trajectoryBuilder(traj4.end())
+                .strafeLeft(5)
+                        .build();
+
+        Trajectory traj6 = drive.trajectoryBuilder(traj5.end())
+                .forward(3)
                 .build();
         //drive.followTrajectoryAsync(traj3);
         telemetry.setMsTransmissionInterval(50);
@@ -111,48 +122,48 @@ public class RedCameraTest extends LinearOpMode
          * This REPLACES waitForStart!
          */
         while (!isStarted() && !isStopRequested()) {
+            telemetry.update();
+            sleep(20);
 
-            ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+            robot.claw.setPosition(0.25);
+            robot.claw2.setPosition(0.25);
+        }
 
-            if (currentDetections.size() != 0) {
-                boolean tagFound = false;
+        //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
+        robot.moveToPositionArm(-500, 1);
+        sleep(1000);
 
-                for (AprilTagDetection tag : currentDetections) {
-                    if (tag.id == LEFT) {
-                        pos = conePos.LEFT;
-                        tagOfInterest = tag;
-                        tagFound = true;
-                        break;
-                    }
-                    if (tag.id == MIDDLE) {
-                        pos = conePos.MIDDLE;
-                        tagOfInterest = tag;
-                        tagFound = true;
-                        break;
-                    }
-                    if (tag.id == RIGHT) {
-                        pos = conePos.RIGHT;
-                        tagOfInterest = tag;
-                        tagFound = true;
-                        break;
+        ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-                    }
+        if (currentDetections.size() != 0) {
+            boolean tagFound = false;
+
+            for (AprilTagDetection tag : currentDetections) {
+                if (tag.id == LEFT) {
+                    pos = conePos.LEFT;
+                    tagOfInterest = tag;
+                    tagFound = true;
+                    break;
                 }
-
-
-                if (tagFound) {
-                    telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
-                    tagToTelemetry(tagOfInterest);
-                } else {
-                    telemetry.addLine("Don't see tag of interest :(");
-
-                    if (tagOfInterest == null) {
-                        telemetry.addLine("(The tag has never been seen)");
-                    } else {
-                        telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
-                        tagToTelemetry(tagOfInterest);
-                    }
+                if (tag.id == MIDDLE) {
+                    pos = conePos.MIDDLE;
+                    tagOfInterest = tag;
+                    tagFound = true;
+                    break;
                 }
+                if (tag.id == RIGHT) {
+                    pos = conePos.RIGHT;
+                    tagOfInterest = tag;
+                    tagFound = true;
+                    break;
+
+                }
+            }
+
+
+            if (tagFound) {
+                telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                tagToTelemetry(tagOfInterest);
             } else {
                 telemetry.addLine("Don't see tag of interest :(");
 
@@ -162,17 +173,18 @@ public class RedCameraTest extends LinearOpMode
                     telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                     tagToTelemetry(tagOfInterest);
                 }
+            }
+        } else {
+            telemetry.addLine("Don't see tag of interest :(");
 
+            if (tagOfInterest == null) {
+                telemetry.addLine("(The tag has never been seen)");
+            } else {
+                telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                tagToTelemetry(tagOfInterest);
             }
 
-            telemetry.update();
-            sleep(20);
-
-            robot.claw.setPosition(0.25);
-            robot.claw2.setPosition(0.25);
         }
-
-
         if (tagOfInterest != null) {
             telemetry.addLine("Tag snapshot:\n");
             tagToTelemetry(tagOfInterest);
@@ -181,20 +193,19 @@ public class RedCameraTest extends LinearOpMode
             telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
             telemetry.update();
         }
-
-
-        //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
         telemetry.addData("position", pos);
         telemetry.update();
         switch (pos) {
 
             case LEFT:
                 //drive.followTrajectory(traj1);
-                drive.followTrajectory(traj2);
+                //drive.followTrajectory(traj2);
                 drive.followTrajectory(traj3);
-                robot.moveToPositionArm(-4300, 1);
-                sleep(100);
                 drive.followTrajectory(traj4);
+                drive.followTrajectory(traj5);
+                //drive.turn(Math.toRadians(45));
+                robot.moveToPositionArm(-5700, 1);
+                sleep(100);
                 //robot.driveAtDirection(0, 200, 0.7);
                 robot.claw.setPosition(0.5);
                 robot.claw2.setPosition(0);
