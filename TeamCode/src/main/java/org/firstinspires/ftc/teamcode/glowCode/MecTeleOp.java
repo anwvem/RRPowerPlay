@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.util.Range;
 //@Disabled
 public class MecTeleOp extends OpMode {
     private final HardwareMapping robot = new HardwareMapping();
-    //private double SLOW = 0.75;
+    private double SLOW = 0.75;
     double test = 0;
     double speed = 1;
     //private double slow = 1;
@@ -53,7 +53,7 @@ public class MecTeleOp extends OpMode {
             // right stick X controls rotation
             double gamepad1LeftY = -gamepad1.left_stick_y;
             double gamepad1LeftX = gamepad1.left_stick_x;
-            double gamepad1RightX = gamepad1.right_stick_x;
+            double gamepad1RightX = gamepad1.right_stick_x * SLOW;
             double gamepad2LeftY = gamepad2.left_stick_y;
             //double gamepad2LeftY = -gamepad1.left_stick_y * .7 * slow;
             /*if (gamepad2LeftY < -0.8) {
@@ -100,11 +100,10 @@ public class MecTeleOp extends OpMode {
                 robot.claw2.setPosition(0.2);
             }
             if (gamepad2.y) {
-                robot.moveToPositionArm(-1000, 1);
-                robot.turretArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.moveToPositionArm(-460, 1, true);
             }
             if (gamepad2.a) {
-                robot.moveToPositionArm(-4300, 1);
+                robot.moveToPositionArm(-4300, 1, true);
                 //robot.turretArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
             /*if (gamepad2.x) {
@@ -118,22 +117,22 @@ public class MecTeleOp extends OpMode {
 
              */
 
-            if (gamepad2.b) {
+            if (gamepad2.x) {
                 test = test + 1;
                 if (test == 1) {
-                    robot.moveToPositionArm(-400, 1);
+                    robot.moveToPositionArm(-400, 1, true);
                 }
                 if (test == 2) {
-                    robot.moveToPositionArm(100, 1);
+                    robot.moveToPositionArm(100, 1, true);
                 }
                 if (test == 3) {
-                    robot.moveToPositionArm(100, 1);
+                    robot.moveToPositionArm(100, 1, true);
                 }
                 if (test == 4) {
-                    robot.moveToPositionArm(100, 1);
+                    robot.moveToPositionArm(100, 1, true);
                 }
                 if (test == 5) {
-                    robot.moveToPositionArm(100, 1);
+                    robot.moveToPositionArm(100, 1, true);
                 }
             }
 

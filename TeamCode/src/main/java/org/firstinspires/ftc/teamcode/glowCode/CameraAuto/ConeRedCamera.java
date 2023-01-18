@@ -158,7 +158,7 @@ public class ConeRedCamera extends LinearOpMode
                 robot.driveAtDirection(270, 2000, .3);
                 //Place cone (Currently test feature, numbers need to be adjusted)
                 robot.driveAtDirection(0, 2200, .3);
-                robot.moveToPositionArm(1000, 0.3);
+                //robot.moveToPositionArm(1000, 0.3);
                 //robot.claw.setPower(0.4);
 
 

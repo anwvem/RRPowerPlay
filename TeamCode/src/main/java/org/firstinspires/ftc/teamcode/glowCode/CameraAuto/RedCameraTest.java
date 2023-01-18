@@ -83,7 +83,7 @@ public class RedCameraTest extends LinearOpMode
 
          */
 
-        Trajectory traj2 = drive.trajectoryBuilder(startPose)
+        /*Trajectory traj2 = drive.trajectoryBuilder(startPose)
                 .splineTo(new Vector2d(-40, -62), Math.toRadians(180))
                 .addTemporalMarker(0.01, () -> {
                     robot.claw.setPosition(0.2);
@@ -91,8 +91,20 @@ public class RedCameraTest extends LinearOpMode
                 })
                 .build();
 
-        Trajectory traj3 = drive.trajectoryBuilder(startPose)
-                .strafeRight(14)
+         */
+
+        Trajectory traj2 = drive.trajectoryBuilder(startPose)
+                .strafeRight(7)
+                //.splineTo(new Vector2d(-5, -10), Math.toRadians(90))
+                /*.addTemporalMarker(0.01, () -> {
+                    robot.moveToPositionArm(-100, 1);
+                })
+
+                 */
+                .build();
+
+        Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
+                .strafeRight(12)
                 //.splineTo(new Vector2d(-5, -10), Math.toRadians(90))
                 /*.addTemporalMarker(0.01, () -> {
                     robot.moveToPositionArm(-100, 1);
@@ -112,6 +124,15 @@ public class RedCameraTest extends LinearOpMode
         Trajectory traj6 = drive.trajectoryBuilder(traj5.end())
                 .forward(2)
                 .build();
+
+        Trajectory traj7 = drive.trajectoryBuilder(traj6.end())
+                .back(2)
+                .build();
+
+        Trajectory traj8 = drive.trajectoryBuilder(traj7.end())
+                .strafeLeft(32)
+                .build();
+
         //drive.followTrajectoryAsync(traj3);
         telemetry.setMsTransmissionInterval(50);
 
@@ -130,7 +151,8 @@ public class RedCameraTest extends LinearOpMode
         }
 
         //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
-        robot.moveToPositionArm(-500, 1);
+        drive.followTrajectory(traj2);
+        robot.moveToPositionArm(-500, 1, "");
         sleep(1000);
 
         ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
@@ -199,18 +221,23 @@ public class RedCameraTest extends LinearOpMode
 
             case LEFT:
                 //drive.followTrajectory(traj1);
-                //drive.followTrajectory(traj2);
                 drive.followTrajectory(traj3);
                 drive.followTrajectory(traj4);
                 robot.moveToPositionArm(-4300, 1, "");
                 sleep(1500);
                 drive.followTrajectory(traj5);
-                drive.followTrajectory(traj6);
+                //drive.followTrajectory(traj6);
                 //robot.moveToPositionArm(-4300, 1);
                 //drive.turn(Math.toRadians(45));
                 //robot.driveAtDirection(0, 200, 0.7);
                 robot.claw.setPosition(0.5);
                 robot.claw2.setPosition(0);
+                robot.moveToPositionArm(-400, 1, "");
+                drive.followTrajectory(traj7);
+                drive.followTrajectory(traj8);
+                drive.turn(Math.toRadians(90));
+                robot.moveToPositionArm(-300, 1, "");
+
                 break;
 
             case MIDDLE:

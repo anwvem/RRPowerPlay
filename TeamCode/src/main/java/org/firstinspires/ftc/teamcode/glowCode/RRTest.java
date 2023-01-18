@@ -60,7 +60,7 @@ public class RRTest extends LinearOpMode {
 
         if (opModeIsActive()) {
             drive.update();
-            robot.moveToPositionArm(100, 0.7);
+            robot.moveToPositionArm(100, 0.7, true);
 
             //drive.followTrajectory(traj1);
             //drive.followTrajectory(traj2);

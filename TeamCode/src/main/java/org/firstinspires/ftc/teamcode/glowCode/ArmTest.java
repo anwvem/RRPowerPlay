@@ -43,7 +43,7 @@ import java.util.ArrayList;
         if (opModeIsActive()) {
             drive.followTrajectory(traj1);
             drive.turn(Math.toRadians(-45));
-            robot.moveToPositionArm(-4300, 1);
+            //robot.moveToPositionArm(-4300, 1);
             //robot.clawPosition(0.3, 0.5);
             //robot.moveToPositionArm(4300, 1);
             }
