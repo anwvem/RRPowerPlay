@@ -133,11 +133,20 @@ public class HardwareMapping {
         turretArm.setTargetPosition(Math.abs(turretArm.getCurrentPosition())+driveDistance);
         turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         turretArm.setPower(speed);
-        while (turretArm.isBusy()) {
+            if(turretArm.getCurrentPosition() <= driveDistance) {
+                turretArm.setPower(0);
+            }
+        }
 
+    public void moveToPositionArm(int driveDistance, double speed, String dummy) {
+        turretArm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        turretArm.setTargetPosition(Math.abs(turretArm.getCurrentPosition())+driveDistance);
+        turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        turretArm.setPower(speed);
+        if(turretArm.getCurrentPosition() <= driveDistance) {
+            turretArm.setPower(0.2);
         }
-        turretArm.setPower(0);
-        }
+    }
     /*public void armMove(int move, double speed) {
         turretArm.setTargetPosition(move);
         turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);

@@ -92,7 +92,7 @@ public class RedCameraTest extends LinearOpMode
                 .build();
 
         Trajectory traj3 = drive.trajectoryBuilder(startPose)
-                .strafeRight(12)
+                .strafeRight(14)
                 //.splineTo(new Vector2d(-5, -10), Math.toRadians(90))
                 /*.addTemporalMarker(0.01, () -> {
                     robot.moveToPositionArm(-100, 1);
@@ -102,15 +102,15 @@ public class RedCameraTest extends LinearOpMode
                 .build();
 
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
-                .forward(28)
+                .forward(53)
                 .build();
 
         Trajectory traj5 = drive.trajectoryBuilder(traj4.end())
-                .strafeLeft(5)
+                .strafeLeft(10)
                         .build();
 
         Trajectory traj6 = drive.trajectoryBuilder(traj5.end())
-                .forward(3)
+                .forward(2)
                 .build();
         //drive.followTrajectoryAsync(traj3);
         telemetry.setMsTransmissionInterval(50);
@@ -202,10 +202,12 @@ public class RedCameraTest extends LinearOpMode
                 //drive.followTrajectory(traj2);
                 drive.followTrajectory(traj3);
                 drive.followTrajectory(traj4);
+                robot.moveToPositionArm(-4300, 1, "");
+                sleep(1500);
                 drive.followTrajectory(traj5);
+                drive.followTrajectory(traj6);
+                //robot.moveToPositionArm(-4300, 1);
                 //drive.turn(Math.toRadians(45));
-                robot.moveToPositionArm(-5700, 1);
-                sleep(100);
                 //robot.driveAtDirection(0, 200, 0.7);
                 robot.claw.setPosition(0.5);
                 robot.claw2.setPosition(0);
