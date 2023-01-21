@@ -32,6 +32,7 @@ public class MecTeleOp extends OpMode {
         robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+        robot.turretArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override

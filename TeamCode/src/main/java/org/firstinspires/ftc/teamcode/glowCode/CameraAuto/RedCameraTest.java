@@ -104,7 +104,7 @@ public class RedCameraTest extends LinearOpMode
                 .build();
 
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .strafeRight(12)
+                .strafeRight(16)
                 //.splineTo(new Vector2d(-5, -10), Math.toRadians(90))
                 /*.addTemporalMarker(0.01, () -> {
                     robot.moveToPositionArm(-100, 1);
@@ -118,7 +118,7 @@ public class RedCameraTest extends LinearOpMode
                 .build();
 
         Trajectory traj5 = drive.trajectoryBuilder(traj4.end())
-                .strafeLeft(10)
+                .strafeLeft(9)
                         .build();
 
         Trajectory traj6 = drive.trajectoryBuilder(traj5.end())
@@ -126,12 +126,17 @@ public class RedCameraTest extends LinearOpMode
                 .build();
 
         Trajectory traj7 = drive.trajectoryBuilder(traj6.end())
-                .back(2)
+                .back(1)
                 .build();
 
         Trajectory traj8 = drive.trajectoryBuilder(traj7.end())
-                .strafeLeft(32)
+                .strafeLeft(33)
                 .build();
+
+        Trajectory traj9 = drive.trajectoryBuilder(traj8.end())
+                .strafeRight(32)
+                .build();
+
 
         //drive.followTrajectoryAsync(traj3);
         telemetry.setMsTransmissionInterval(50);
@@ -151,8 +156,8 @@ public class RedCameraTest extends LinearOpMode
         }
 
         //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
-        drive.followTrajectory(traj2);
         robot.moveToPositionArm(-500, 1, "");
+        drive.followTrajectory(traj2);
         sleep(1000);
 
         ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
@@ -224,19 +229,29 @@ public class RedCameraTest extends LinearOpMode
                 drive.followTrajectory(traj3);
                 drive.followTrajectory(traj4);
                 robot.moveToPositionArm(-4300, 1, "");
-                sleep(1500);
+                sleep(1000);
                 drive.followTrajectory(traj5);
-                //drive.followTrajectory(traj6);
+                drive.followTrajectory(traj6);
                 //robot.moveToPositionArm(-4300, 1);
                 //drive.turn(Math.toRadians(45));
                 //robot.driveAtDirection(0, 200, 0.7);
                 robot.claw.setPosition(0.5);
                 robot.claw2.setPosition(0);
-                robot.moveToPositionArm(-400, 1, "");
-                drive.followTrajectory(traj7);
+                robot.moveToPositionArm(-500, 1, "");
+                //drive.followTrajectory(traj7);
                 drive.followTrajectory(traj8);
                 drive.turn(Math.toRadians(90));
-                robot.moveToPositionArm(-300, 1, "");
+                robot.moveToPositionArm(50, 1, false);
+                sleep(300);
+                robot.claw.setPosition(0.25);
+                robot.claw2.setPosition(0.25);
+                sleep(100);
+                //robot.moveToPositionArm(500, 1, true);
+                /*drive.turn(Math.toRadians(-90));
+                drive.followTrajectory(traj9);
+                
+                 */
+
 
                 break;
 

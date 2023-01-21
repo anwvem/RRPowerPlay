@@ -34,16 +34,14 @@ import java.util.ArrayList;
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        Trajectory traj1 = drive.trajectoryBuilder(startPose)
-
-                .build();
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
         if (opModeIsActive()) {
-            drive.followTrajectory(traj1);
-            drive.turn(Math.toRadians(-45));
-            //robot.moveToPositionArm(-4300, 1);
+            //drive.followTrajectory(traj1);
+            //drive.turn(Math.toRadians(-45));
+            robot.moveToPositionArm(-500, 1, "");
+            robot.moveToPositionArm(-460, 1, "");
             //robot.clawPosition(0.3, 0.5);
             //robot.moveToPositionArm(4300, 1);
             }

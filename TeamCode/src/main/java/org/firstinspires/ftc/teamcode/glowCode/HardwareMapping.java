@@ -130,19 +130,19 @@ public class HardwareMapping {
     }
     public void moveToPositionArm(int driveDistance, double speed, boolean goingUp) {
         if (goingUp) {
-        turretArm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        turretArm.setTargetPosition(Math.abs(turretArm.getCurrentPosition())+driveDistance);
+        //turretArm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        turretArm.setTargetPosition(driveDistance);
         turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         turretArm.setPower(speed);
-            if(turretArm.getCurrentPosition() <= driveDistance) {
+            if(Math.abs(turretArm.getCurrentPosition()) >= driveDistance) {
                 turretArm.setPower(0);
             }}
-        else {
-            turretArm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-            turretArm.setTargetPosition(Math.abs(turretArm.getCurrentPosition())-driveDistance);
+        else if (!goingUp){
+            //turretArm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+            turretArm.setTargetPosition((turretArm.getCurrentPosition())-driveDistance);
             turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             turretArm.setPower(speed);
-            if(turretArm.getCurrentPosition() >= driveDistance) {
+            if(Math.abs(turretArm.getCurrentPosition()) <= driveDistance) {
                 turretArm.setPower(0);
             }}
         }
@@ -150,7 +150,7 @@ public class HardwareMapping {
 
     public void moveToPositionArm(int driveDistance, double speed, String dummy) {
         turretArm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        turretArm.setTargetPosition(Math.abs(turretArm.getCurrentPosition())+driveDistance);
+        turretArm.setTargetPosition((turretArm.getCurrentPosition())+driveDistance);
         turretArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         turretArm.setPower(speed);
         if(turretArm.getCurrentPosition() <= driveDistance) {
