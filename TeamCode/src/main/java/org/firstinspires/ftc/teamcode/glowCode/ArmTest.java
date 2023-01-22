@@ -32,6 +32,7 @@ import java.util.ArrayList;
         Pose2d startPose = new Pose2d(-36, -62, Math.toRadians(90));
 
         telemetry.addData("Status", "Initialized");
+        telemetry.addData("lift encoders", String.format("%d", robot.turretArm.getCurrentPosition()));
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -40,8 +41,8 @@ import java.util.ArrayList;
         if (opModeIsActive()) {
             //drive.followTrajectory(traj1);
             //drive.turn(Math.toRadians(-45));
-            robot.moveToPositionArm(-500, 1, "");
-            robot.moveToPositionArm(-460, 1, "");
+            robot.moveToPositionArm(1000, 1, true);
+            robot.moveToPositionArm(600, 1, false);
             //robot.clawPosition(0.3, 0.5);
             //robot.moveToPositionArm(4300, 1);
             }
